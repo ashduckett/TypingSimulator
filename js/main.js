@@ -1,6 +1,3 @@
-let time = new Date();
-let underscoreTime = new Date();
-
 class TypingSimulator {
 
     constructor() {
@@ -9,6 +6,8 @@ class TypingSimulator {
         this.string = '';
         this.shouldAddUnderscore = false;
         this.textAlign = null;
+        this.time = new Date();
+        this.underscoreTime = new Date();
     }
 
     setTextAlign(alignment) {
@@ -37,14 +36,14 @@ class TypingSimulator {
         // Get this fresh each frame.
         let currentTime = new Date().getTime();
 
-        if (currentTime - underscoreTime.getTime() >= 250) {
+        if (currentTime - this.underscoreTime.getTime() >= 250) {
             this.shouldAddUnderscore = !this.shouldAddUnderscore;
-            underscoreTime = new Date();
+            this.underscoreTime = new Date();
         }
     
         const randomDelay = Math.floor(Math.random() * 5000);
 
-        if (currentTime - time.getTime() >= randomDelay) {
+        if (currentTime - this.time.getTime() >= randomDelay) {
             if (this.currentChar < this.finalString.length) {
 
                 if (typeof this.finalString[this.currentChar] === 'string') {
@@ -65,7 +64,7 @@ class TypingSimulator {
                 this.currentChar = 0;
                 this.string = '';
             }
-            time = new Date();
+            this.time = new Date();
         }
 
         // Render
