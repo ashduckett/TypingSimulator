@@ -8,6 +8,11 @@ class TypingSimulator {
         this.currentChar = 0;
         this.string = '';
         this.shouldAddUnderscore = false;
+        this.textAlign = null;
+    }
+
+    setTextAlign(alignment) {
+        this.textAlign = alignment;
     }
 
     start() {
@@ -49,6 +54,9 @@ class TypingSimulator {
                         case TypingSimulator.DeleteKey:
                             this.string = this.string.substring(0, this.string.length - 1); 
                             break;
+                        case TypingSimulator.EnterKey:
+                            this.string += '\n';
+                            break;
                     }
                 }
                 this.currentChar++;
@@ -67,30 +75,51 @@ class TypingSimulator {
         ctx.fillStyle = 'white';
         
         // Now break up the text into separate lines
+        const strings = this.string.split('\n');
+        ctx.clearRect(0, 0, 1500, 500);
+        let currentY = 50;
+
+        // How do I know when not to show the underscore?
+
+        let shouldAppendUnderscore = false;
+
+        for (var i = 0; i < strings.length; i++) {
+
+            if (i === strings.length - 1) {
+                shouldAppendUnderscore = true;
+            } else {
+                shouldAppendUnderscore = false;
+            }
+
+            if (this.textAlign !== null) {
+                ctx.textAlign = this.textAlign;
+            }
+
+            ctx.fillText((i > 0 ? '' : '>') + strings[i] + (this.shouldAddUnderscore && shouldAppendUnderscore ? '_' : ' '), 750, currentY);    
+            currentY += 50;
+        }
         
         
-        ctx.clearRect(0, 0, 1000, 500);
-        ctx.fillText('>' + this.string + (this.shouldAddUnderscore ? '_' : '') , 10, 50);    
+        
         requestAnimationFrame(this.draw.bind(this));
     }
 }
 
 TypingSimulator.DeleteKey = 0;
 TypingSimulator.EnterKey = 1;
+TypingSimulator.AlignCentre = 3;
+
 
 const ts = new TypingSimulator();
+ts.setTextAlign('center');
 ts.start();
-ts.write('Hello. My name is Ash. I am a front-end developer.');
+ts.write('Hello. My name is Ash.');
+ts.enter();
+ts.write('I am a front-end developer.')
 ts.delete(20);
 ts.write('backend developer.');
 ts.delete(18);
 ts.write('iOS developer.');
+ts.enter();
+ts.write('some more text');
 
-
-/*
-    For multiline support you will need multiple calls to fillText.
-
-    1. Add new key.
-    2. Add function to add enter.
-
-*/

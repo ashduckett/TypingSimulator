@@ -1,5 +1,10 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
 #paper {
     height: 500px;
-    width: 1000px;
+    width: 1500px;
     background-color: black;
 }
