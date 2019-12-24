@@ -69,6 +69,7 @@ class TypingSimulator {
 
         // Render
         var c = document.getElementById('paper');
+        console.log(c)
         var ctx = c.getContext("2d");
         ctx.font = "30px Courier New";
         ctx.fillStyle = 'white';
